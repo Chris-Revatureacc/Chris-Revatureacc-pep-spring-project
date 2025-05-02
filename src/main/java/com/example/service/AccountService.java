@@ -21,17 +21,17 @@ public class AccountService {
     public Account addAccount(Account account) {
         Optional<Account> accountOptional = accountRepository.findAccount(account.getUsername());
         if(account.getUsername() == "") {
-            throw new IllegalArgumentException("Username cannot be blank"); 
+            return null;
         } else if(account.getPassword().length() < 4) {
-            throw new IllegalArgumentException("Password must be atlease 4 characters in length");
+            return null;
         } else if(accountOptional.isPresent()) {
-            throw new IllegalArgumentException("Username is already taken");
+            return null;
         }
         return accountRepository.save(account);
     }
 
-    public Account loginAccount(Account account) {
-        Optional<Account> accountOptional = accountRepository.findAccount(account.getUsername());
+    public Account loginAccount(String username) {
+        Optional<Account> accountOptional = accountRepository.findAccount(username);
         if(accountOptional.isPresent()) {
             return accountOptional.get();
         }
