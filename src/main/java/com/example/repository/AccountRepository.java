@@ -8,9 +8,9 @@ import java.util.Optional;
 
 public interface AccountRepository extends JpaRepository<Account, Long> {
 
-    @Query("FROM account WHERE username = :usernameVar")
+    @Query("FROM Account WHERE username = :usernameVar")
     Optional<Account> findAccount(@Param("usernameVar") String username);
 
-    @Query("FROM account WHERE username = :usernameVar AND password = :passwordVar")
+    @Query("FROM Account WHERE username = :usernameVar AND password = :passwordVar")
     Optional<Account> login(@Param("usernameVar") String username, @Param("passwordVar") String password);
 }
