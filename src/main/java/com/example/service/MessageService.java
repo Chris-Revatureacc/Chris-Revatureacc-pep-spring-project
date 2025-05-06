@@ -31,7 +31,7 @@ public class MessageService {
         return messageRepository.findAll();
     }
 
-    public Message getMessageById(Long id) {
+    public Message getMessageById(Integer id) {
         Optional<Message> optionalMessage = messageRepository.findById(id);
         if(optionalMessage.isPresent()) {
             return optionalMessage.get();
@@ -39,16 +39,12 @@ public class MessageService {
         return null;
     }
 
-    public int deleteMessageById(long id) {
+    public int deleteMessageById(Integer id) {
         Optional<Message> optionalMessage = messageRepository.findById(id);
-        if(optionalMessage.isPresent()) {
-            messageRepository.deleteById(id);
-            return 1;
-        }
-        return 0;
+        return messageRepository.deleteMessageById(id);
     }
 
-    public Message updateMessage(long id, Message update) {
+    public Message updateMessage(Integer id, Message update) {
         Optional<Message> messageOptional = messageRepository.findById(id);
         if(messageOptional.isPresent()) {
             Message message = messageOptional.get();
@@ -59,7 +55,7 @@ public class MessageService {
         return null;
     }
 
-    public List<Message> getAllMessagesFromUser(long id) {
+    public List<Message> getAllMessagesFromUser(Integer id) {
         List<Message> messageOptional = messageRepository.findMessages(id);
         return messageOptional;
     }

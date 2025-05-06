@@ -69,7 +69,7 @@ public class SocialMediaController {
     }
 
     @GetMapping("/messages/{message_id}")
-    public ResponseEntity getMessageById(@PathVariable long message_id) {
+    public ResponseEntity getMessageById(@PathVariable Integer message_id) {
         Message msg = messageService.getMessageById(message_id);
         if(msg != null) {
             return ResponseEntity.ok(msg);
@@ -79,18 +79,21 @@ public class SocialMediaController {
     }
 
     @DeleteMapping("/messages/{message_id}")
-    public ResponseEntity deleteMessageById(@PathVariable long message_id) {
+    public ResponseEntity deleteMessageById(@PathVariable Integer message_id) {
         Message msg = messageService.getMessageById(message_id);
         int flag = messageService.deleteMessageById(message_id);
         if(flag == 1) {
-            return ResponseEntity.ok(msg); 
+            return ResponseEntity.ok(1); 
         } else {
             return ResponseEntity.ok().build();
         }
     }
 
     @PatchMapping("/messages/{message_id}")
-    public ResponseEntity updateMessageById(@PathVariable long message_id, @RequestBody Message message) {
+    public ResponseEntity updateMessageById(@PathVariable Integer message_id, @RequestBody Message message) {
+        if(message.getMessageText().isBlank() || message.getMessageText().length() > 255) {
+            return ResponseEntity.status(400).body("Message cannot be empty and must not exceed 255 characters.");
+        }
         Message msg = messageService.updateMessage(message_id, message);
         if(msg != null) {
             return ResponseEntity.ok(1);
